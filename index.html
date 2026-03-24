@@ -13,11 +13,15 @@
             justify-content: center;
             align-items: center;
             font-family: 'Segoe UI', Roboto, sans-serif;
-            /* Si subes la foto a GitHub con el nombre 'mamita.JPG', este código la encontrará */
+            
+            /* --- CAMBIO AQUÍ: Ahora busca medellin.png --- */
             background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
-                        url('medellin.jpg');
+                        url('medellin.png');
+            /* ------------------------------------------- */
+            
             background-size: cover;
             background-position: center;
+            background-repeat: no-repeat; /* Asegura que no se repita si es pequeña */
             color: white;
             overflow: hidden;
         }
@@ -86,7 +90,7 @@
 
 <div class="glass-card" id="main-card">
     <div id="countdown-section">
-        <h1>Faltan para vernos "NORITA" en Medellín:</h1>
+        <h1>Faltan para vernos "Norita" en Medellín:</h1>
         <div class="countdown-wrapper">
             <div class="unit-box"><span id="d" class="num">00</span><span class="txt">Días</span></div>
             <div class="unit-box"><span id="h" class="num">00</span><span class="txt">Horas</span></div>
@@ -105,6 +109,7 @@
 <script>
     // --- CONFIGURA TU FECHA AQUÍ ---
     // (Año, Mes-1, Día, Hora, Minutos)
+    // Ejemplo para el 24 de Diciembre de 2026 a las 6:00 PM
     const arrivalDate = new Date(2026, 2, 25, 11, 30, 0).getTime(); 
 
     const countdown = setInterval(() => {
@@ -113,15 +118,25 @@
 
         const second = 1000, minute = second * 60, hour = minute * 60, day = hour * 24;
 
-        document.getElementById("d").innerText = Math.max(0, Math.floor(gap / day));
-        document.getElementById("h").innerText = Math.max(0, Math.floor((gap % day) / hour));
-        document.getElementById("m").innerText = Math.max(0, Math.floor((gap % hour) / minute));
-        document.getElementById("s").innerText = Math.max(0, Math.floor((gap % minute) / second));
+        // Asegurar que no muestre números negativos
+        const d = Math.max(0, Math.floor(gap / day));
+        const h = Math.max(0, Math.floor((gap % day) / hour));
+        const m = Math.max(0, Math.floor((gap % hour) / minute));
+        const s = Math.max(0, Math.floor((gap % minute) / second));
 
+        document.getElementById("d").innerText = d;
+        document.getElementById("h").innerText = h;
+        document.getElementById("m").innerText = m;
+        document.getElementById("s").innerText = s;
+
+        // Si la cuenta regresiva termina
         if (gap <= 0) {
             clearInterval(countdown);
             document.getElementById("countdown-section").style.display = "none";
             document.getElementById("final-content").style.display = "block";
+            
+            // Opcional: Cambiar el fondo al terminar
+            // document.body.style.backgroundImage = "url('otra_imagen.png')";
         }
     }, 1000);
 
